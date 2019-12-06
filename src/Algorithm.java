@@ -9,7 +9,7 @@ class Algorithm {
         String choose;
         String strWord;
         boolean repeat;
-        char letter;
+        char[] letter;
         String answer;
         char[] word = rWord.toCharArray();
         Scanner scanner = new Scanner(System.in);
@@ -19,7 +19,8 @@ class Algorithm {
         String LowerCase = rWord.substring(1).toLowerCase();
         int attempts = (int) difficulty * word.length;
         while (true) {
-            System.out.println("У вас осталось "+attempts+" попыток.");
+            System.out.println("У вас осталось " + attempts + " попыток." +
+                    "");
             System.out.println("(1)Ввести слово |(2)Ввести букву");
             choose = scanner.next();
             switch (choose) {
@@ -35,21 +36,31 @@ class Algorithm {
                 case "2":
                     System.out.println("Введите букву");
                     repeat = true;
-                    letter = scanner.next(".").charAt(0);
-                    letter = Character.toLowerCase(letter);
-                    if (repeatCheck(letter)) {
-                        while (repeat) {
-                            System.out.println("Вы уже вводили эту букву, повторите снова!");
-                            letter = scanner.next().charAt(0);
-                            letter = Character.toLowerCase(letter);
-                            repeat = repeatCheck(letter);
-                            symbols[(int) letter] = letter;
+                    letter = scanner.next().toLowerCase().toCharArray();
+                    if (correctSymbol(letter)) {
+                        while (correctSymbol(letter)) {
+                            System.out.println("Введено больше одной буквы, попробуйте еще раз!");
+                            letter = scanner.next().toLowerCase().toCharArray();
                         }
                     }
-                    symbols[(int) letter] = letter;
+                    if (repeatCheck(letter[0])) {
+                        while (repeat) {
+                            System.out.println("Вы уже вводили эту букву, повторите снова!");
+                            letter = scanner.next().toLowerCase().toCharArray();
+                            if (correctSymbol(letter)) {
+                                while (correctSymbol(letter)) {
+                                    System.out.println("Введено больше одной буквы, попробуйте еще раз!");
+                                    letter = scanner.next().toLowerCase().toCharArray();
+                                }
+                            }
+                            repeat = repeatCheck(letter[0]);
+                            symbols[(int) letter[0]] = letter[0];
+                        }
+                    }
+                    symbols[(int) letter[0]] = letter[0];
                     for (int k = 0; k < word.length; k++) {
-                        if (letter == word[k]) {
-                            progressWord[k] = letter;
+                        if (letter[0] == word[k]) {
+                            progressWord[k] = letter[0];
                         }
                     }
                     check = winCheck(progressWord);
@@ -57,15 +68,14 @@ class Algorithm {
                     System.out.println(strWord.substring(0, 1).toUpperCase() + strWord.substring(1).toLowerCase());
                     if (!check) {
                         System.out.println("Вы победитель!\nЗагаданное слово: " + UpperCase + LowerCase);
-                        break;
+                        System.exit(0);
                     }
                     attempts--;
                     break;
                 default:
                     System.out.println("Некорректный ввод, повторите попытку!");
             }
-            check = winCheck(progressWord);
-            if (!check || attempts == 0) {
+            if (attempts == 0) {
                 System.out.println("Вы проиграли!\nЗагаданное слово: " + UpperCase + LowerCase);
                 System.exit(0);
             }
@@ -85,5 +95,9 @@ class Algorithm {
             }
         }
         return false;
+    }
+    
+    private boolean correctSymbol(char[] letter) {
+        return letter.length != 1;
     }
 }

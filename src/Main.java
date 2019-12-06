@@ -8,24 +8,24 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException {
         Algorithm algo = new Algorithm();
         ArrayList<String> words = new ArrayList<>();
-        ArrayList<String> question=new ArrayList<>();
+        ArrayList<String> question = new ArrayList<>();
         boolean run = false;
         char[] progressWord;
         String difficulty;
-        Scanner answers=new Scanner(new File("src/answers.txt"));
-        Scanner questions=new Scanner(new File("src/questions.txt"));
-        int i=0;
-        while(answers.hasNext()){
-            words.add(i,answers.nextLine());
-            question.add(i,questions.nextLine());
+        Scanner answers = new Scanner(new File("src/answers.txt"));
+        Scanner questions = new Scanner(new File("src/questions.txt"));
+        int i = 0;
+        while (answers.hasNext()) {
+            words.add(i, answers.nextLine());
+            question.add(i, questions.nextLine());
             i++;
         }
         Scanner scanner = new Scanner(System.in);
         int n = (int) Math.floor(Math.random() * words.size());
         words.set(n, words.get(n).toLowerCase());
-        question.set(n,question.get(n));
+        question.set(n, question.get(n));
         progressWord = words.get(n).toCharArray();
-        System.out.println("Вопрос: "+question.get(n));
+        System.out.println("Вопрос: " + question.get(n));
         while (!run) {
             run = true;
             System.out.println("Выберите уровень сложности: (1)Легкий |(2)Средний |(3)Сложный");
