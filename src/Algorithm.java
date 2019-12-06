@@ -96,7 +96,7 @@ class Algorithm {
         }
         return false;
     }
-    
+
     private boolean correctSymbol(char[] letter) {
         return letter.length != 1;
     }
